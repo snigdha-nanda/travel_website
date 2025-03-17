@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import useHotels from '../hooks/useHotels';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import useHotels from "../hooks/useHotels";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const HotelDetails = () => {
     const { hotelId } = useParams();
     const { hotelDetails, fetchHotelDetails, loading, error } = useHotels();
     const [currentImage, setCurrentImage] = useState(0);
+    const [isFading, setIsFading] = useState(false);
     const [showAllAmenities, setShowAllAmenities] = useState(false);
 
     useEffect(() => {
@@ -30,6 +31,24 @@ const HotelDetails = () => {
         return <div className="text-center text-red-500 text-xl">Error: {error}</div>;
     }
 
+    // Function to smoothly transition to the next image
+    const handleNextImage = (room) => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentImage((prev) => (prev + 1) % room.photos.length);
+            setIsFading(false);
+        }, 500);
+    };
+
+    // Function to smoothly transition to the previous image
+    const handlePrevImage = (room) => {
+        setIsFading(true);
+        setTimeout(() => {
+            setCurrentImage((prev) => (prev - 1 + room.photos.length) % room.photos.length);
+            setIsFading(false);
+        }, 500);
+    };
+
     return (
         <div className="bg-white text-gray-700 w-[99vw]">
             <Header />
@@ -43,7 +62,7 @@ const HotelDetails = () => {
                 />
             </section>
 
-            {/* Hero Section */}
+            {/* Hero Section*/}
             <section className="bg-blue-900 text-white text-center py-6 px-4">
                 <h1 className="text-3xl font-bold">{hotelDetails.name}</h1>
                 <p className="text-lg mt-1">⭐ {hotelDetails.rating} / 10 ({hotelDetails.reviewCount} reviews)</p>
@@ -53,6 +72,18 @@ const HotelDetails = () => {
             <section className="max-w-4xl mx-auto p-6">
                 <h2 className="text-xl font-semibold text-blue-800">📍Address</h2>
                 <p className="mt-2">{hotelDetails.address}, {hotelDetails.city}, {hotelDetails.country.toUpperCase()}</p>
+            </section>
+
+            {/* Hotel Description */}
+            <section className="max-w-4xl mx-auto p-6">
+                <h2 className="text-2xl font-semibold text-blue-800">Hotel Description</h2>
+                <p className="mt-2 text-gray-700 text-left" dangerouslySetInnerHTML={{ __html: hotelDetails.hotelDescription }} />
+            </section>
+
+            {/* Hotel Important Information */}
+            <section className="max-w-4xl mx-auto p-4 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-900 rounded-lg">
+                <h2 className="text-2xl font-semibold text-yellow-800">Important Information</h2>
+                <p className="mt-2 text-gray-700" dangerouslySetInnerHTML={{ __html: hotelDetails.hotelImportantInformation }} />
             </section>
 
             {/* Room Details */}
@@ -67,17 +98,18 @@ const HotelDetails = () => {
                                     <img
                                         src={room.photos[currentImage]?.url || room.photos[currentImage]?.failoverPhoto}
                                         alt={`Room Image ${currentImage + 1}`}
-                                        className="w-full h-full object-cover transition-opacity duration-500"
+                                        className={`w-full h-full object-cover transition-all duration-500 ease-in-out ${isFading ? "opacity-0 scale-95" : "opacity-100 scale-100"
+                                            }`}
                                     />
                                     {/* Navigation Buttons */}
                                     <button
-                                        onClick={() => setCurrentImage((prev) => (prev - 1 + room.photos.length) % room.photos.length)}
+                                        onClick={() => handlePrevImage(room)}
                                         className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600"
                                     >
                                         ❮
                                     </button>
                                     <button
-                                        onClick={() => setCurrentImage((prev) => (prev + 1) % room.photos.length)}
+                                        onClick={() => handleNextImage(room)}
                                         className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-gray-800 text-white p-2 rounded-full hover:bg-gray-600"
                                     >
                                         ❯
@@ -90,12 +122,11 @@ const HotelDetails = () => {
                             )}
                         </div>
 
-                        {/* Room Title and Description */}
+                        {/* Room Details */}
                         <div className="mt-4">
                             <h3 className="text-lg font-semibold text-blue-800">{room.roomName}</h3>
-                            <p className="text-gray-600">{room.description}</p>
+                            <p className="mt-2 text-gray-700 text-left" dangerouslySetInnerHTML={{ __html: room.description }} />
                         </div>
-
                         {/* Row Layout for Room Info and Amenities */}
                         <div className="flex flex-col sm:flex-row justify-between mt-4 gap-6">
                             {/* Room Details */}
@@ -143,7 +174,7 @@ const HotelDetails = () => {
                     </div>
                 ))}
             </section>
-
+            
             {/* Check-in and Check-out Times */}
             <section className="max-w-4xl mx-auto p-6">
                 <h2 className="text-2xl font-semibold text-blue-800">Property Rules</h2>

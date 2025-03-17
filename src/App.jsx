@@ -5,6 +5,7 @@ import Favourites from './pages/Favourites';
 import Hotels from './pages/Hotels';
 import HotelDetails from './pages/HotelDetails';
 import About from './pages/About';
+import BlogDetails from './pages/BlogDetails';
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<HomePage />} />
+          <Route path="/blogs/:blogId" element={<BlogDetails />} />
           <Route path="/favourites" element={<Favourites />} />
           <Route path="/hotels" element={<Hotels />} />
           <Route path="/hotels/:hotelId" element={<HotelDetails />} />

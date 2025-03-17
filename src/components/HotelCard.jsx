@@ -1,18 +1,40 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 const HotelCard = ({ hotel }) => {
     const navigate = useNavigate();
+    const [isFavorite, setIsFavorite] = useState(false);
 
-    // Function to handle navigation to the details page
+    useEffect(() => {
+        // Check if the hotel is in the favourites when the component loads
+        const currentFavList = JSON.parse(localStorage.getItem('favourites')) || [];
+        setIsFavorite(currentFavList.some((item) => item.id === hotel.id));
+    }, [hotel.id]); // Runs only when the hotel changes
+
     const handleCardClick = () => {
-        navigate(`/hotels/${hotel.id}`); // Pass hotel id to the details page
+        navigate(`/hotels/${hotel.id}`);
+    };
+
+    const addToFavourites = () => {
+        const currentFavList = JSON.parse(localStorage.getItem('favourites')) || [];
+        if (!isFavorite) {
+            currentFavList.push(hotel);
+            localStorage.setItem('favourites', JSON.stringify(currentFavList));
+            setIsFavorite(true); // Update state to trigger re-render
+        }
+    };
+
+    const removeFromFavourites = () => {
+        let currentFavList = JSON.parse(localStorage.getItem('favourites')) || [];
+        currentFavList = currentFavList.filter((item) => item.id !== hotel.id);
+        localStorage.setItem('favourites', JSON.stringify(currentFavList));
+        setIsFavorite(false); // Update state to trigger re-render
     };
 
     return (
         <div
             className="bg-white shadow-lg rounded-lg p-5 w-80 md:w-96 flex flex-col hover:cursor-pointer hover:shadow-xl transition duration-300"
-            onClick={handleCardClick} // Click event to navigate
+            onClick={handleCardClick}
         >
             {/* Hotel Image */}
             <div className="h-48 w-full">
@@ -55,8 +77,14 @@ const HotelCard = ({ hotel }) => {
 
             {/* Favorite Button */}
             <div className="h-12">
-                <button className="mt-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 rounded w-full transition duration-300">
-                    Add to Favorites
+                <button
+                    className={`mt-2 ${isFavorite ? 'bg-red-600 hover:bg-red-700' : 'bg-blue-600 hover:bg-blue-700'} text-white font-semibold py-2 rounded w-full transition duration-300`}
+                    onClick={(e) => {
+                        e.stopPropagation(); // Prevent navigation when clicking the button
+                        isFavorite ? removeFromFavourites() : addToFavourites();
+                    }}
+                >
+                    {isFavorite ? 'Remove from Favorites' : 'Add to Favorites'}
                 </button>
             </div>
         </div>

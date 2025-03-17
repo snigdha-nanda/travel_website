@@ -1,11 +1,22 @@
 import React from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
+    const navigate = useNavigate();
+
+    const handleBlogLinkClick = (e) => {
+        e.preventDefault();
+        navigate('/');
+        setTimeout(() => {
+            document.getElementById("blogs").scrollIntoView({ behavior: "smooth" });
+        }, 0);
+    };
+
     return (
         <footer className="bg-gray-800 text-white py-12 mt-12">
             <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-                {/* First Column: TravelGo Name and Description */}
+                {/* First Column: Name and Description */}
                 <div>
                     <h1 className="text-4xl font-bold mb-4">TravelGo</h1>
                     <p className="text-lg mb-6 ml-6">
@@ -17,11 +28,16 @@ const Footer = () => {
                 <div>
                     <h2 className="text-2xl font-semibold mb-4">Quick Links</h2>
                     <ul className="space-y-4">
-                        <li><a href="#blogs" onClick={(e) => {
-                            e.preventDefault();
-                            document.getElementById("blogs").scrollIntoView({ behavior: "smooth" });
-                        }} className="hover:text-yellow-400">Blogs</a></li>
-                        <li><a href="/hotels"className="hover:text-yellow-400">Hotels</a></li>
+                        <li>
+                            <a
+                                href="/#blogs"
+                                onClick={handleBlogLinkClick}
+                                className="hover:text-yellow-400"
+                            >
+                                Blogs
+                            </a>
+                        </li>
+                        <li><a href="/hotels" className="hover:text-yellow-400">Hotels</a></li>
                         <li><a href="/about-us" className="hover:text-yellow-400">About Us</a></li>
                     </ul>
                 </div>
