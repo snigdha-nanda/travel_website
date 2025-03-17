@@ -1,5 +1,5 @@
 import React from 'react';
-import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaLinkedin, FaTwitter } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
 
 const Footer = () => {
@@ -16,15 +16,15 @@ const Footer = () => {
     return (
         <footer className="bg-gray-800 text-white py-12 mt-12">
             <div className="container mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-12">
-                {/* First Column: Name and Description */}
-                <div>
-                    <h1 className="text-4xl font-bold mb-4">TravelGo</h1>
+            <div>
+                    <div className="flex items-center mb-4">
+                        <img src="/favicon.png" alt="TravelGo Logo" className="h-18 w-18" />
+                        <h1 className="text-4xl font-bold">TravelGo</h1>
+                    </div>
                     <p className="text-lg mb-6 ml-6">
                         Explore the world with TravelGo, your ultimate guide to discovering the best hotels, destinations, and travel experiences.
                     </p>
                 </div>
-
-                {/* Second Column: Quick Links */}
                 <div>
                     <h2 className="text-2xl font-semibold mb-4">Quick Links</h2>
                     <ul className="space-y-4">
@@ -41,8 +41,6 @@ const Footer = () => {
                         <li><a href="/about-us" className="hover:text-yellow-400">About Us</a></li>
                     </ul>
                 </div>
-
-                {/* Third Column: Newsletter Subscription and Social Media Icons */}
                 <div className='flex flex-col'>
                     <h2 className="text-2xl font-semibold mb-4">Subscribe to Our Newsletter</h2>
                     <div className="flex mb-6">
@@ -72,8 +70,6 @@ const Footer = () => {
                     </div>
                 </div>
             </div>
-
-            {/* Copyright Section */}
             <div className="text-center mt-12">
                 <p>&copy; 2025 TravelGo. All rights reserved.</p>
             </div>

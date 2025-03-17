@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const Header = () => {
@@ -27,7 +27,8 @@ const Header = () => {
     return (
         <header className="fixed top-0 left-0 right-0 bg-white shadow-md z-50 p-4">
             <div className="flex justify-between items-center">
-                <Link to="/" className="text-2xl font-bold">
+                <Link to="/" className="flex items-center text-2xl font-bold">
+                    <img src="/favicon.png" alt="TravelGo Logo" className="h-10 w-10 mr-2" />
                     TravelGo
                 </Link>
                 <nav>
