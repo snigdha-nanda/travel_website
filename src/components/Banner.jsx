@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react";
-import "../assets/css/Banner.css";  // Import the CSS file for styling
+import "../assets/css/Banner.css";
 
 const Carousel = () => {
     const [currentIndex, setCurrentIndex] = useState(0);
     const images = [
-        "https://placehold.co/1530x730",
-        "https://placehold.co/1530x730",
-        "https://placehold.co/1530x730",
+        "/images/img-1.jpg",
+        "/images/img-2.jpg",
+        "/images/img-3.jpg",
     ];
 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
-        }, 3000); // Change images every 3 seconds
+        }, 3000);
 
-        return () => clearInterval(interval); // Cleanup the interval when the component is unmounted
+        return () => clearInterval(interval);
     }, [images.length]);
 
     return (
