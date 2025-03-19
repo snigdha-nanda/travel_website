@@ -1,4 +1,4 @@
-# TravelGo Frontend (By Snigdha)
+# TravelGo Frontend 
 
 ## Project Description
 TravelGo is a user-friendly frontend web application designed to help travelers explore hotels, read travel blogs, and manage their favorite hotels efficiently. The application provides an interactive and responsive interface, allowing users to filter hotels by country, view detailed hotel descriptions, and read travel blogs. 
